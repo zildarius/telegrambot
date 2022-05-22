@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\Users\ildar\go\testbot\docker-compose\kompose.exe convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: bot
+  name: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: bot
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\Users\ildar\go\testbot\docker-compose\kompose.exe convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: bot
+    spec:
+      containers:
+        - env:
+            - name: CREATE_TABLE
+              value: "yes"
+            - name: DBNAME
+              value: postgres
+            - name: DB_SWITCH
+              value: "on"
+            - name: HOST
+              value: localhost
+            - name: PASSWORD
+              value: test
+            - name: PORT
+              value: "5432"
+            - name: SSLMODE
+              value: disable
+            - name: TOKEN
+              value: 5302735752:AAGsAffMWEwycRSZvt-iOCKrEI2dyT2uo2o
+            - name: USER
+              value: postgres
+          image: zildarius/wikipedia-telegram-bot:latest
+          name: bot
+          resources: {}
+        - env:
+            - name: POSTGRES_PASSWORD
+              value: test
+          image: postgres
+          name: db
+          resources: {}  
+      restartPolicy: Always
+status: {}
